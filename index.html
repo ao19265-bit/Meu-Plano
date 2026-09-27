@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meu Plano</title>
+<meta name="theme-color" content="#23804F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F4;--surface:#FFFFFF;--ink:#1E2B2A;--muted:#566866;--line:#DCE4E1;
+  --food:#23804F;--food-soft:#E2F3E9;
+  --water:#1A72B3;--water-soft:#E0EFFA;
+  --train:#8A3586;--train-soft:#F5E5F3;
+  --log:#A8650A;--log-soft:#FBEFD9;
+  --alert:#B83227;--alert-soft:#FBE6E3;
+  --med:#4549AE;--med-soft:#E8E9FA;
+  --display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --body:"Nunito Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121918;--surface:#1A2322;--ink:#E6EEEC;--muted:#9EB1AD;--line:#2B3735;
+    --food:#62C990;--food-soft:#19301F;
+    --water:#62B4EF;--water-soft:#14293A;
+    --train:#D784D2;--train-soft:#301C33;
+    --log:#EBAB4B;--log-soft:#352711;
+    --alert:#F08274;--alert-soft:#381C19;
+    --med:#A3A7F4;--med-soft:#1F2140;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121918;--surface:#1A2322;--ink:#E6EEEC;--muted:#9EB1AD;--line:#2B3735;
+  --food:#62C990;--food-soft:#19301F;
+  --water:#62B4EF;--water-soft:#14293A;
+  --train:#D784D2;--train-soft:#301C33;
+  --log:#EBAB4B;--log-soft:#352711;
+  --alert:#F08274;--alert-soft:#381C19;
+  --med:#A3A7F4;--med-soft:#1F2140;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0}
+h2{font-size:1.6rem;font-weight:800}
+h3{font-size:1.1rem;font-weight:700;margin-top:1.4rem}
+p{margin:.5rem 0}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;font-weight:700;font-size:.9rem;padding:7px 14px;border-radius:999px;color:var(--c,var(--ink));background:var(--s,var(--surface));border:1px solid var(--line)}
+nav a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--water);outline-offset:2px}
+
+/* hero: hoje */
+header{padding:28px 0 8px}
+header h1{font-size:clamp(2rem,7vw,2.8rem);font-weight:800;letter-spacing:-.02em}
+header p{color:var(--muted);margin:.3rem 0 0}
+.today{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.today-top{padding:18px 20px;background:var(--train-soft);border-bottom:1px solid var(--line)}
+.today-top .day{font-family:var(--display);font-size:1.5rem;font-weight:800;color:var(--train)}
+.today-top .work{font-weight:700}
+.today-body{padding:16px 20px 20px}
+.meal{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.meal:last-child{border-bottom:0}
+.meal b{color:var(--food);font-size:.9rem}
+
+/* água: copos */
+.glasses{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:14px 0 8px;max-width:420px}
+.glass{aspect-ratio:3/4;border:2px solid var(--water);border-radius:6px 6px 14px 14px;background:transparent;cursor:pointer;position:relative;overflow:hidden;padding:0}
+.glass::after{content:"";position:absolute;left:0;right:0;bottom:0;height:0;background:var(--water);transition:height .25s ease}
+.glass.full::after{height:78%}
+@media (prefers-reduced-motion:reduce){.glass::after{transition:none}}
+.water-total{font-family:var(--display);font-size:1.35rem;font-weight:800;color:var(--water)}
+
+section{padding:40px 0 8px}
+.lead{font-size:1.05rem}
+.band{border-left:6px solid var(--c);padding-left:14px;margin-bottom:14px}
+.band p{color:var(--muted);margin-top:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{background:var(--s);color:var(--c);font-weight:700;white-space:nowrap}
+td input{width:100%;min-width:56px;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+
+ul.plain{padding-left:1.1rem;margin:.6rem 0}
+ul.plain li{margin:.35rem 0}
+
+/* chips de dia / treino */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+.chip{flex:none;font:inherit;font-weight:700;font-size:.9rem;padding:8px 14px;border-radius:999px;border:1.5px solid var(--c);background:transparent;color:var(--c);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--c);color:var(--surface)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:6px 18px}
+
+/* compras */
+.shop h3{color:var(--food)}
+.check{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--food);flex:none;margin-top:1px}
+.check.done span{text-decoration:line-through;color:var(--muted)}
+.btn{font:inherit;font-weight:700;padding:9px 16px;border-radius:10px;border:1.5px solid var(--c);background:var(--s);color:var(--c);cursor:pointer;margin-top:12px}
+
+.alert-item{background:var(--alert-soft);border-radius:14px;padding:12px 16px;margin:10px 0}
+.alert-item b{color:var(--alert)}
+/* proteína */
+.pbar{height:14px;border-radius:999px;background:var(--food-soft);overflow:hidden;margin:8px 0 4px;position:relative}
+.pbar i{display:block;height:100%;background:var(--food);width:0;transition:width .25s ease}
+.pbar .goal{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.45}
+@media (prefers-reduced-motion:reduce){.pbar i{transition:none}}
+.foods{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.food{font:inherit;font-size:.85rem;font-weight:600;padding:6px 10px;border-radius:10px;border:1px solid var(--food);background:var(--food-soft);color:var(--ink);cursor:pointer}
+.food small{color:var(--food);font-weight:700}
+.eaten{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.eaten button{font:inherit;font-size:.8rem;padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row input,.row select,.field{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.row input[type=number]{width:90px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.big{font-family:var(--display);font-size:1.35rem;font-weight:800}
+.scale{display:grid;grid-template-columns:90px 1fr;gap:10px 12px;align-items:center;margin:10px 0}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{font:inherit;font-size:.85rem;font-weight:700;padding:6px 10px;border-radius:9px;border:1.5px solid var(--med);background:transparent;color:var(--med);cursor:pointer}
+.opt[aria-pressed="true"]{background:var(--med);color:var(--surface)}
+.del{font:inherit;border:0;background:none;color:var(--alert);cursor:pointer;font-weight:700}
+td input[type=checkbox]{width:22px;height:22px;min-width:0;accent-color:var(--train)}
+.chart svg{width:100%;height:auto;display:block}
+.chart .axis{stroke:var(--line)}
+.chart text{fill:var(--muted);font-size:11px;font-family:var(--body)}
+.chart .ln{fill:none;stroke:var(--log);stroke-width:2.5}
+.chart .pt{fill:var(--log)}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<nav aria-label="Seções">
+  <div class="wrap">
+    <a href="#hoje" style="--c:var(--train);--s:var(--train-soft)">Hoje</a>
+    <a href="#monjaro" style="--c:var(--med);--s:var(--med-soft)">Monjaro</a>
+    <a href="#metas">Metas</a>
+    <a href="#agua" style="--c:var(--water);--s:var(--water-soft)">Água</a>
+    <a href="#cardapio" style="--c:var(--food);--s:var(--food-soft)">Cardápio</a>
+    <a href="#compras" style="--c:var(--food);--s:var(--food-soft)">Compras</a>
+    <a href="#treinos" style="--c:var(--train);--s:var(--train-soft)">Treinos</a>
+    <a href="#medidas" style="--c:var(--log);--s:var(--log-soft)">Medidas</a>
+    <a href="#alertas" style="--c:var(--alert);--s:var(--alert-soft)">Alertas</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<header id="hoje">
+  <h1>Plano de 8 semanas</h1>
+  <p>Alimentação, água e treino. Números aproximados: confirme com seu médico.</p>
+
+  <div class="today">
+    <div class="today-top">
+      <div class="day" id="todayName">Hoje</div>
+      <div class="work" id="todayWork"></div>
+    </div>
+    <div class="today-body">
+      <div id="todayMeals"></div>
+      <h3 style="color:var(--water)">Água de hoje</h3>
+      <p style="color:var(--muted);margin:2px 0 0">Toque em um copo a cada 250 ml bebidos.</p>
+      <div class="glasses" id="glasses" role="group" aria-label="Copos de água de hoje"></div>
+      <div><span class="water-total" id="waterTotal">0 L</span> <span style="color:var(--muted)">de 2,5 a 3 L</span></div>
+
+      <h3 style="color:var(--food)">Proteína de hoje</h3>
+      <p style="color:var(--muted);margin:2px 0 0">Toque no que você comeu. Valores aproximados. Para iogurte proteico e produtos com rótulo, use o número da embalagem no campo abaixo.</p>
+      <div class="pbar" aria-hidden="true"><i id="pFill"></i><span class="goal" style="left:75%"></span></div>
+      <div><span class="big" style="color:var(--food)" id="pTotal">0 g</span> <span style="color:var(--muted)">de 90 a 120 g</span></div>
+      <div class="foods" id="foods"></div>
+      <div class="row">
+        <input type="number" id="pCustom" min="0" step="1" placeholder="gramas" aria-label="Gramas de proteína">
+        <input type="text" id="pCustomName" placeholder="o que comeu (opcional)" aria-label="Alimento" style="flex:1;min-width:140px">
+        <button class="btn" id="pAdd" style="--c:var(--food);--s:var(--food-soft);margin-top:0">Somar</button>
+      </div>
+      <p style="color:var(--muted);margin-top:10px;font-size:.9rem">Somado hoje (toque para remover):</p>
+      <div class="eaten" id="eaten"></div>
+    </div>
+
+  </div>
+</header>
+
+<section id="monjaro">
+  <div class="band" style="--c:var(--med)">
+    <h2 style="color:var(--med)">Monjaro</h2>
+    <p>Aplicações, rodízio de local e como você está se sentindo. Leve isso para as consultas.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;color:var(--med)">Próxima aplicação</h3>
+    <p class="big" id="nextShot">Registre a primeira aplicação abaixo.</p>
+    <p style="color:var(--muted);margin:0" id="nextSite"></p>
+  </div>
+  <h3 style="color:var(--med)">Registrar aplicação</h3>
+  <div class="row">
+    <input type="date" id="shotDate" aria-label="Data da aplicação">
+    <select id="shotDose" aria-label="Dose">
+      <option>2,5 mg</option><option>5 mg</option><option>7,5 mg</option><option>10 mg</option><option>12,5 mg</option><option>15 mg</option>
+    </select>
+    <select id="shotSite" aria-label="Local"></select>
+    <button class="btn" id="shotAdd" style="--c:var(--med);--s:var(--med-soft);margin-top:0">Registrar</button>
+  </div>
+  <p style="color:var(--muted);font-size:.9rem">Pelas instruções de uso, o braço costuma ser indicado quando outra pessoa aplica. Confira as instruções da sua caixa.</p>
+  <div class="tbl" style="--c:var(--med);--s:var(--med-soft)"><table id="shotTable"></table></div>
+  <h3 style="color:var(--med)">Como estou hoje</h3>
+  <p style="color:var(--muted);margin-top:2px">Leva 10 segundos. Os registros aparecem na tabela abaixo.</p>
+  <div class="scale" id="effects"></div>
+  <input class="field" id="effNote" placeholder="Outro sintoma ou observação" aria-label="Observação do dia" style="width:100%">
+  <div class="tbl" style="--c:var(--med);--s:var(--med-soft)"><table id="effTable"></table></div>
+</section>
+
+
+<section id="metas">
+  <div class="band" style="--c:var(--ink)">
+    <h2>Metas e regras</h2>
+    <p>Todos os números são aproximados.</p>
+  </div>
+  <div class="tbl" style="--c:var(--ink);--s:var(--bg)">
+    <table>
+      <thead><tr><th>Item</th><th>Meta aproximada</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>Calorias</td><td>1.700 a 2.000 kcal/dia</td><td>Gasto estimado de 2.400 a 2.700 kcal (Mifflin-St Jeor + treino). Não ficar muito abaixo sem orientação.</td></tr>
+        <tr><td>Proteína</td><td>90 a 120 g/dia</td><td>Calculada sobre o peso-meta. Confirmar o critério com o médico.</td></tr>
+        <tr><td>Água</td><td>2,5 a 3 L/dia</td><td>Ajuda com intestino preso, efeito comum no início.</td></tr>
+        <tr><td>Ritmo de perda</td><td>0,5 a 1 kg/semana</td><td>Em 8 semanas, algo como 4 a 8 kg. Os 25 kg devem levar de 6 meses a 1 ano.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="plain">
+    <li>Proteína em toda refeição, sempre comida primeiro. Sem fome, coma pelo menos a proteína.</li>
+    <li>Prato: metade legumes, um quarto proteína (cerca de 120 g cozida), um quarto carboidrato (3 a 4 colheres de sopa de arroz ou equivalente) + 1 concha de feijão.</li>
+    <li>4 refeições pequenas por dia, comendo devagar e parando no primeiro sinal de saciedade.</li>
+    <li>Semanas 1 a 4 (adaptação): comidas cozidas e leves.</li>
+    <li>Semanas 5 a 8: se o médico aumentar a dose, os enjoos podem voltar. Volte às porções menores.</li>
+    <li>Aplicação: mesmo dia da semana, qualquer horário, com ou sem comida. Alternar barriga, coxa e braço.</li>
+  </ul>
+</section>
+
+<section id="agua">
+  <div class="band" style="--c:var(--water)">
+    <h2 style="color:var(--water)">Hidratação</h2>
+    <p>Cerca de 2,5 a 3 litros por dia, distribuídos ao longo do dia.</p>
+  </div>
+  <p>É uma estimativa: a regra prática de 30 a 35 ml por kg daria mais para 3 a 3,5 L no seu peso, mas ela é aproximada e não substitui a orientação do médico.</p>
+  <ul class="plain">
+    <li><b>Por gole:</b> não existe uma quantidade oficial. O que ajuda com o Monjaro é beber pouco de cada vez, em goles pequenos, em vez de grandes volumes de uma vez.</li>
+    <li><b>Na prática:</b> cerca de 1 copo (250 ml) por hora durante o dia, bebido aos poucos. Uma garrafa de 1 L cheia 3 vezes ao dia bate a meta.</li>
+    <li><b>Nas refeições:</b> prefira beber mais entre as refeições do que durante. É uma dica comum de conforto, não uma regra médica.</li>
+    <li><b>Sinais de pouca água:</b> urina escura, tontura, dor de cabeça, boca seca.</li>
+  </ul>
+  <h3 style="color:var(--water)">Controle diário (litros)</h3>
+  <p style="color:var(--muted)">Anote quanto bebeu em cada dia, por exemplo 2,5. Fica salvo neste aparelho.</p>
+  <div class="tbl" style="--c:var(--water);--s:var(--water-soft)"><table id="waterGrid"></table></div>
+</section>
+
+<section id="cardapio">
+  <div class="band" style="--c:var(--food)">
+    <h2 style="color:var(--food)">Cardápio semanal</h2>
+    <p>Repetir a mesma semana nas 8 semanas.</p>
+  </div>
+  <p>Metas por refeição (aproximadas): café 20–25 g de proteína, almoço 30–35 g, lanche 10–15 g, jantar 25–30 g.</p>
+  <div class="chips" id="dayChips" style="--c:var(--food)"></div>
+  <div class="panel" id="dayMenu"></div>
+  <p style="color:var(--muted)">Carboidrato no almoço: 3 a 4 colheres de sopa de arroz (ou 1 batata média, ou 1 xícara de macarrão cozido) + 1 concha de feijão. Se a fome estiver muito baixa, reduza o carboidrato antes da proteína.</p>
+
+  <h3 style="color:var(--food)">Opções para trocar</h3>
+  <p style="color:var(--muted)">Qualquer item pode ser trocado por outro da mesma linha.</p>
+  <div class="tbl" style="--c:var(--food);--s:var(--food-soft)">
+    <table>
+      <thead><tr><th>Categoria</th><th>Opções</th></tr></thead>
+      <tbody>
+        <tr><td>Proteínas</td><td>Frango (100 g ≈ 30 g de proteína), patinho, carne magra, peixe, atum, ovos (1 ovo ≈ 6 g), queijo branco, cottage, ricota, iogurte natural ou proteico, leite</td></tr>
+        <tr><td>Leguminosas</td><td>Feijão (1 concha ≈ 5 g de proteína), lentilha, grão-de-bico</td></tr>
+        <tr><td>Carboidratos</td><td>Arroz branco ou integral, batata, batata-doce, mandioca, abóbora, macarrão, pão integral, tapioca, aveia, cuscuz</td></tr>
+        <tr><td>Legumes e verduras</td><td>Abobrinha, chuchu, cenoura, brócolis, couve-flor, vagem, berinjela, espinafre, folhas, tomate</td></tr>
+        <tr><td>Frutas</td><td>Banana, mamão, maçã, pera, morango, melão, melancia, laranja, kiwi</td></tr>
+        <tr><td>Gorduras (pouca quantidade)</td><td>Azeite, abacate, castanhas, pasta de amendoim</td></tr>
+        <tr><td>Evitar</td><td>Frituras, fast food, doces, embutidos, álcool, refrigerante</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="compras" class="shop">
+  <div class="band" style="--c:var(--food)">
+    <h2 style="color:var(--food)">Lista de compras semanal</h2>
+    <p>Para 1 pessoa. Pesos de carne já crus (perdem cerca de 25% a 30% ao cozinhar).</p>
+  </div>
+  <div id="shopList"></div>
+  <button class="btn" id="resetShop" style="--c:var(--food);--s:var(--food-soft)">Desmarcar tudo para a próxima semana</button>
+</section>
+
+<section id="treinos">
+  <div class="band" style="--c:var(--train)">
+    <h2 style="color:var(--train)">Treinos</h2>
+    <p>4 dias de musculação, 2 de cardio e 1 de descanso, cerca de 1 hora cada.</p>
+  </div>
+  <div class="tbl" style="--c:var(--train);--s:var(--train-soft)">
+    <table>
+      <thead><tr><th>Dia</th><th>Treino</th></tr></thead>
+      <tbody id="weekPlan"></tbody>
+    </table>
+  </div>
+  <p><b>Como fazer os treinos A a D:</b> 5 a 10 minutos de aquecimento na bike ou esteira, os 6 exercícios, e 10 minutos de cardio leve no fim. 3 séries de 10 a 12 repetições, 60 a 90 segundos de descanso. A carga certa é aquela em que você ainda conseguiria fazer mais umas 2 repetições.</p>
+  <div class="chips" id="workChips" style="--c:var(--train)"></div>
+  <div class="tbl" style="--c:var(--train);--s:var(--train-soft)"><table id="workTable"></table></div>
+
+  <h3 style="color:var(--train)">Cargas (kg)</h3>
+  <p style="color:var(--muted)">Anote a carga de cada exercício do treino escolhido acima, semana a semana.</p>
+  <div class="tbl" style="--c:var(--train);--s:var(--train-soft)"><table id="loadTable"></table></div>
+
+  <h3 style="color:var(--train)">Treinos feitos</h3>
+  <p style="color:var(--muted)">Marque cada dia em que treinou.</p>
+  <div class="tbl" style="--c:var(--train);--s:var(--train-soft)"><table id="doneTable"></table></div>
+
+
+  <h3 style="color:var(--train)">Dias de cardio (quarta e sábado)</h3>
+  <p>30 a 40 minutos de bike, elíptico ou caminhada na esteira inclinada, em ritmo que permita conversar. Depois, 15 minutos de abdômen (prancha e abdominal) e alongamento. Prefira baixo impacto em vez de corrida, para proteger joelhos e tornozelos.</p>
+
+  <h3 style="color:var(--train)">Progressão</h3>
+  <div class="tbl" style="--c:var(--train);--s:var(--train-soft)">
+    <table>
+      <thead><tr><th>Semanas</th><th>O que fazer</th></tr></thead>
+      <tbody>
+        <tr><td>1 e 2</td><td>Carga leve, foco em aprender a técnica. Peça ajuda ao professor da academia.</td></tr>
+        <tr><td>3 e 4</td><td>Aumentar a carga aos poucos quando as 12 repetições ficarem fáceis.</td></tr>
+        <tr><td>5 a 8</td><td>4 séries nos 2 primeiros exercícios de cada treino; continuar subindo a carga.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="medidas">
+  <div class="band" style="--c:var(--log)">
+    <h2 style="color:var(--log)">Peso e medidas</h2>
+    <p>Peso toda semana; medidas a cada 2 semanas. Sempre no mesmo dia, pela manhã, em jejum.</p>
+  </div>
+  <div class="chips" id="mChips" style="--c:var(--log)"></div>
+  <div class="card chart" id="chart"></div>
+  <div class="tbl" style="--c:var(--log);--s:var(--log-soft)"><table id="mTable"></table></div>
+  <h3 style="color:var(--log)">Como medir</h3>
+  <p style="color:var(--muted)">Fita métrica flexível, rente à pele sem apertar, sempre do mesmo lado do corpo.</p>
+  <ul class="plain">
+    <li><b>Cintura:</b> na parte mais fina do tronco, geralmente um pouco acima do umbigo.</li>
+    <li><b>Abdômen:</b> na altura do umbigo.</li>
+    <li><b>Quadril:</b> na parte mais larga do glúteo, com os pés juntos.</li>
+    <li><b>Busto:</b> na altura dos mamilos.</li>
+    <li><b>Braço:</b> no meio, entre ombro e cotovelo, relaxado.</li>
+    <li><b>Coxa:</b> na parte mais larga, logo abaixo do glúteo.</li>
+    <li><b>Fotos:</b> de frente, de lado e de costas, com a mesma roupa, luz e distância.</li>
+  </ul>
+  <p style="color:var(--muted)">Peso e inchaço podem variar ao longo do ciclo menstrual. Olhe a tendência, não uma medida isolada.</p>
+</section>
+
+
+<section id="alertas">
+  <div class="band" style="--c:var(--alert)">
+    <h2 style="color:var(--alert)">Alertas e cuidados</h2>
+    <p>Este plano não substitui o médico. Leve-o na próxima consulta e, se puder, a um nutricionista.</p>
+  </div>
+  <div class="alert-item"><b>Anticoncepcional oral:</b> a bula informa que o Monjaro pode reduzir a eficácia da pílula. A orientação é trocar por método não oral ou usar camisinha junto por 4 semanas após o início e após cada aumento de dose. Confirme com o médico.</div>
+  <div class="alert-item"><b>Procure atendimento</b> se tiver dor abdominal forte e persistente (às vezes irradiando para as costas), vômitos que não param ou sinais de desidratação.</div>
+  <div class="alert-item"><b>Antes do treino:</b> coma algo com proteína e carboidrato 1 a 2 horas antes e leve água. Se sentir tontura ou fraqueza, pare.</div>
+  <div class="alert-item"><b>Dose:</b> a inicial padrão é 2,5 mg por 4 semanas. Aumento só com orientação médica. Confira a bula da sua caixa, pois pode ter sido atualizada.</div>
+</section>
+
+<section id="backup">
+  <div class="band" style="--c:var(--ink)">
+    <h2>Backup</h2>
+    <p>Tudo o que você preenche fica só neste celular. Salve um backup de vez em quando.</p>
+  </div>
+  <div class="row">
+    <button class="btn" id="bkSave" style="--c:var(--ink);--s:var(--surface);margin-top:0">Salvar backup</button>
+    <button class="btn" id="bkLoad" style="--c:var(--ink);--s:var(--surface);margin-top:0">Restaurar backup</button>
+    <input type="file" id="bkFile" accept="application/json,.json" hidden>
+  </div>
+  <p id="bkMsg" style="color:var(--muted)"></p>
+</section>
+<footer>O que você marca e escreve aqui fica salvo só neste aparelho.</footer>
+</main>
+
+<script>
+const S={get(k,d){try{const v=localStorage.getItem("plano8:"+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+         set(k,v){try{localStorage.setItem("plano8:"+k,JSON.stringify(v))}catch(e){}}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const days=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const menu=[
+ ["1 fatia de pão integral, 2 ovos mexidos, 1 fatia de queijo branco, mamão","Arroz, feijão, 120 g de frango assado, abobrinha refogada","Iogurte proteico com meia banana","Omelete de 3 ovos com legumes"],
+ ["Tapioca pequena com 2 ovos e queijo branco","Arroz, feijão, 120 g de patinho moído com legumes, cenoura cozida","Iogurte natural, 1 fatia de queijo branco e 1 fruta","Sopa de legumes com 100 g de frango desfiado"],
+ ["Iogurte proteico com 2 colheres de aveia e morango + 1 ovo cozido","Batata cozida, 120 g de peixe grelhado, brócolis","1 torrada integral com 2 colheres de cottage","Wrap integral com 100 g de frango e legumes"],
+ ["Crepioca com 2 ovos e queijo","Arroz, feijão, 120 g de frango grelhado, chuchu","Vitamina pequena de banana com leite","Purê de abóbora com 100 g de carne desfiada"],
+ ["1 fatia de pão integral com 3 colheres de cottage, 1 ovo e 1 fruta","Arroz, lentilha, 120 g de patinho grelhado, legumes","Iogurte proteico com fruta","Omelete de 3 ovos e legumes cozidos"],
+ ["2 ovos cozidos, 1 fruta, café com leite","Macarrão (porção pequena) com molho de tomate e 120 g de frango, legumes","1 fruta com 2 fatias de queijo branco","120 g de peixe assado com legumes"],
+ ["Panqueca de 1 banana, 2 colheres de aveia e 2 ovos","Arroz, feijão, 120 g de carne de panela magra, legumes","Iogurte proteico","Sanduíche natural de frango (100 g) no pão integral"]
+];
+const mealNames=["Café","Almoço","Lanche","Jantar"];
+const weekWork=["Descanso ou caminhada leve","Treino A: quadríceps e glúteo","Treino B: costas e bíceps","Cardio e abdômen","Treino C: posterior de coxa e glúteo","Treino D: peito, ombro e tríceps","Cardio e alongamento"];
+const works={
+ A:["Treino A: quadríceps e glúteo",[["Leg press 45°","3 x 10–12","Agachamento com halter no peito (goblet)"],["Agachamento goblet","3 x 10–12","—"],["Cadeira extensora","3 x 12","Afundo parado com halteres"],["Elevação pélvica (máquina ou barra)","3 x 10–12","Com halter, costas apoiadas no banco"],["Cadeira abdutora","3 x 15","Abdução com elástico"],["Panturrilha em pé","3 x 15","Em um degrau, com halter"]]],
+ B:["Treino B: costas e bíceps",[["Puxada frontal","3 x 10–12","Puxada com elástico"],["Remada baixa","3 x 10–12","Remada curvada com halteres"],["Remada unilateral com halter","3 x 10–12 cada lado","—"],["Rosca direta com halteres","3 x 12","—"],["Rosca martelo","3 x 12","—"],["Prancha","3 x 20–30 s","—"]]],
+ C:["Treino C: posterior de coxa e glúteo",[["Stiff com halteres","3 x 10–12","—"],["Mesa ou cadeira flexora","3 x 12","Flexão de perna com caneleira"],["Agachamento búlgaro","3 x 10 cada perna","Afundo sem apoio"],["Coice na polia","3 x 12 cada perna","Coice com caneleira"],["Cadeira abdutora","3 x 15","Abdução com elástico"],["Panturrilha sentado","3 x 15","Halter apoiado no joelho"]]],
+ D:["Treino D: peito, ombro e tríceps",[["Supino na máquina","3 x 10–12","Supino com halteres"],["Voador (crucifixo na máquina)","3 x 12","Crucifixo com halteres"],["Desenvolvimento de ombro","3 x 10–12","Com halteres, sentada"],["Elevação lateral","3 x 12","—"],["Tríceps na polia","3 x 12","Tríceps francês com halter"],["Abdominal","3 x 15","—"]]]
+};
+const shop=[
+ ["Proteínas",["Peito de frango: 900 g a 1 kg","Patinho (metade moído, metade em bife): 350 g","Carne magra para cozinhar e desfiar (músculo ou acém limpo): 350 g","Filé de peixe (tilápia ou similar): 350 g","Ovos: 2 dúzias (o cardápio usa cerca de 18)"]],
+ ["Laticínios",["Iogurte proteico: 4 unidades","Iogurte natural: 1 unidade","Queijo branco (minas frescal): 250 g","Queijo cottage: 1 pote (cerca de 200 g)","Leite: 1 litro"]],
+ ["Carboidratos e grãos",["Pão integral: 1 pacote","Wrap ou rap10 integral: 1 pacote","Goma de tapioca: 1 pacote pequeno","Aveia em flocos: 1 pacote","Macarrão: 1 pacote (dura mais de uma semana)","Arroz e feijão: repor conforme estoque","Lentilha: 1 pacote (dura mais de uma semana)","Batata: 2 médias","Abóbora: 1 pedaço (cerca de 500 g)"]],
+ ["Legumes e verduras",["Abobrinha: 2","Chuchu: 2","Cenoura: 3","Brócolis: 1 maço","Tomate: 4","Cebola e alho","Legumes extras para sopa e omelete (vagem, couve-flor, espinafre): 2 ou 3 itens","Folhas para o sanduíche e o wrap: 1 pé"]],
+ ["Frutas",["Banana: 6","Mamão: 1","Morango: 1 bandeja","Frutas variadas (maçã, pera, laranja, kiwi): 5"]],
+ ["Despensa (repor quando acabar)",["Molho de tomate: 1","Azeite","Castanhas: 1 pacote pequeno","Café e temperos"]]
+];
+
+const now=new Date(), today=now.getDay();
+const dateKey=now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate();
+
+/* Hoje */
+document.getElementById("todayName").textContent="Hoje é "+days[today].toLowerCase();
+document.getElementById("todayWork").textContent=weekWork[today];
+const mealsHTML=d=>menu[d].map((m,i)=>`<div class="meal"><b>${mealNames[i]}</b><span>${esc(m)}</span></div>`).join("");
+document.getElementById("todayMeals").innerHTML=mealsHTML(today);
+
+/* Copos */
+const gEl=document.getElementById("glasses");
+let glasses=S.get("glasses:"+dateKey,0);
+function drawGlasses(){
+  gEl.innerHTML="";
+  for(let i=0;i<12;i++){
+    const b=document.createElement("button");
+    b.className="glass"+(i<glasses?" full":"");
+    b.setAttribute("aria-label",`Copo ${i+1}${i<glasses?", bebido":""}`);
+    b.onclick=()=>{glasses=(i<glasses&&i===glasses-1)?i:i+1;S.set("glasses:"+dateKey,glasses);drawGlasses()};
+    gEl.appendChild(b);
+  }
+  document.getElementById("waterTotal").textContent=(glasses*0.25).toLocaleString("pt-BR",{maximumFractionDigits:2})+" L";
+}
+drawGlasses();
+
+/* Grade de água */
+const wg=S.get("waterGrid",{});
+let wh="<thead><tr><th>Dia</th>"+[1,2,3,4,5,6,7,8].map(w=>`<th>Sem. ${w}</th>`).join("")+"</tr></thead><tbody>";
+days.forEach((d,di)=>{wh+=`<tr><td>${d}</td>`+[1,2,3,4,5,6,7,8].map(w=>`<td><input inputmode="decimal" data-k="${di}-${w}" aria-label="${d}, semana ${w}, litros" value="${esc(wg[di+"-"+w]||"")}"></td>`).join("")+"</tr>"});
+const wgEl=document.getElementById("waterGrid");
+wgEl.innerHTML=wh+"</tbody>";
+wgEl.addEventListener("input",e=>{const k=e.target.dataset.k;if(k){wg[k]=e.target.value;S.set("waterGrid",wg)}});
+
+/* Cardápio */
+const dc=document.getElementById("dayChips"), dm=document.getElementById("dayMenu");
+function showDay(d){
+  [...dc.children].forEach((c,i)=>c.setAttribute("aria-pressed",i===d));
+  dm.innerHTML=mealsHTML(d);
+}
+days.forEach((d,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=d;b.onclick=()=>showDay(i);dc.appendChild(b)});
+showDay(today);
+
+/* Compras */
+const done=S.get("shop",{});
+const sl=document.getElementById("shopList");
+shop.forEach(([cat,items],ci)=>{
+  let h=`<h3>${cat}</h3>`;
+  items.forEach((it,ii)=>{const k=ci+"-"+ii;h+=`<label class="check${done[k]?" done":""}"><input type="checkbox" data-k="${k}"${done[k]?" checked":""}><span>${esc(it)}</span></label>`});
+  sl.insertAdjacentHTML("beforeend",h);
+});
+sl.addEventListener("change",e=>{const k=e.target.dataset.k;if(!k)return;done[k]=e.target.checked;e.target.parentElement.classList.toggle("done",e.target.checked);S.set("shop",done)});
+document.getElementById("resetShop").onclick=()=>{Object.keys(done).forEach(k=>delete done[k]);S.set("shop",done);sl.querySelectorAll("input").forEach(i=>{i.checked=false;i.parentElement.classList.remove("done")})};
+
+/* Treinos */
+const order=[1,2,3,4,5,6,0];
+document.getElementById("weekPlan").innerHTML=order.map(d=>`<tr${d===today?' style="background:var(--train-soft);font-weight:700"':""}><td>${days[d]}</td><td>${weekWork[d]}</td></tr>`).join("");
+const wc=document.getElementById("workChips"), wt=document.getElementById("workTable");
+function showWork(k){
+  [...wc.children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===k));
+  const [,rows]=works[k];
+  wt.innerHTML="<thead><tr><th>Exercício</th><th>Séries x reps</th><th>Sem a máquina</th></tr></thead><tbody>"+rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")+"</tbody>";
+}
+Object.keys(works).forEach(k=>{const b=document.createElement("button");b.className="chip";b.dataset.k=k;b.textContent=works[k][0].split(":")[0];b.onclick=()=>showWork(k);wc.appendChild(b)});
+showWork({1:"A",2:"B",4:"C",5:"D"}[today]||"A");
+
+/* Datas */
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseISO=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const fmt=d=>d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"});
+const fmtShort=s=>parseISO(s).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"});
+const todayISO=iso(now);
+const num=v=>{const n=parseFloat(String(v).replace(",","."));return isNaN(n)?null:n};
+
+/* Proteína */
+const foods=[["1 ovo",6],["Frango 100 g",30],["Carne magra 100 g",30],["Peixe 100 g",22],["Atum, lata pequena",20],["Iogurte natural",6],["Queijo branco, 1 fatia",5],["Cottage, 2 colheres",6],["Leite, 1 copo",6],["Feijão, 1 concha",5],["Lentilha, 1 concha",7],["Pão integral, 1 fatia",3]];
+let eaten=S.get("prot:"+todayISO,[]);
+const fEl=document.getElementById("foods");
+foods.forEach(([n,g])=>{const b=document.createElement("button");b.className="food";b.innerHTML=`${esc(n)} <small>+${g} g</small>`;b.onclick=()=>{eaten.push([n,g]);saveProt()};fEl.appendChild(b)});
+function saveProt(){S.set("prot:"+todayISO,eaten);drawProt()}
+function drawProt(){
+  const t=eaten.reduce((a,[,g])=>a+g,0);
+  document.getElementById("pTotal").textContent=t+" g";
+  document.getElementById("pFill").style.width=Math.min(t/120,1)*100+"%";
+  const e=document.getElementById("eaten");
+  e.innerHTML=eaten.length?"":'<span style="color:var(--muted);font-size:.85rem">Nada ainda.</span>';
+  eaten.forEach(([n,g],i)=>{const b=document.createElement("button");b.textContent=`${n} (${g} g) ✕`;b.setAttribute("aria-label",`Remover ${n}`);b.onclick=()=>{eaten.splice(i,1);saveProt()};e.appendChild(b)});
+}
+document.getElementById("pAdd").onclick=()=>{
+  const g=num(document.getElementById("pCustom").value);if(g===null||g<=0)return;
+  const n=document.getElementById("pCustomName").value.trim()||"Outro";
+  eaten.push([n,Math.round(g)]);document.getElementById("pCustom").value="";document.getElementById("pCustomName").value="";saveProt();
+};
+drawProt();
+
+/* Aplicações */
+const sites=["Barriga, lado esquerdo","Barriga, lado direito","Coxa esquerda","Coxa direita","Braço esquerdo","Braço direito"];
+let shots=S.get("shots",[]);
+const siteSel=document.getElementById("shotSite");
+sites.forEach(s=>{const o=document.createElement("option");o.textContent=s;siteSel.appendChild(o)});
+document.getElementById("shotDate").value=todayISO;
+function drawShots(){
+  shots.sort((a,b)=>a.d<b.d?1:-1);
+  const t=document.getElementById("shotTable");
+  if(!shots.length){t.innerHTML='<tbody><tr><td style="color:var(--muted)">Nenhuma aplicação registrada ainda.</td></tr></tbody>';}
+  else t.innerHTML="<thead><tr><th>Data</th><th>Dose</th><th>Local</th><th></th></tr></thead><tbody>"+shots.map((s,i)=>`<tr><td>${fmtShort(s.d)}</td><td>${esc(s.dose)}</td><td>${esc(s.site)}</td><td><button class="del" data-i="${i}" aria-label="Apagar aplicação">Apagar</button></td></tr>`).join("")+"</tbody>";
+  if(shots.length){
+    const last=shots[0], next=parseISO(last.d);next.setDate(next.getDate()+7);
+    const ns=sites[(sites.indexOf(last.site)+1)%sites.length];
+    document.getElementById("nextShot").textContent=fmt(next);
+    document.getElementById("nextSite").textContent=`Local sugerido no rodízio: ${ns}. Última dose: ${last.dose}.`;
+    siteSel.value=ns;document.getElementById("shotDose").value=last.dose;
+  }else{
+    document.getElementById("nextShot").textContent="Registre a primeira aplicação abaixo.";
+    document.getElementById("nextSite").textContent="";
+  }
+}
+document.getElementById("shotAdd").onclick=()=>{
+  const d=document.getElementById("shotDate").value;if(!d)return;
+  shots.push({d,dose:document.getElementById("shotDose").value,site:siteSel.value});S.set("shots",shots);drawShots();
+};
+document.getElementById("shotTable").addEventListener("click",e=>{const i=e.target.dataset.i;if(i===undefined)return;if(confirm("Apagar esta aplicação?")){shots.splice(+i,1);S.set("shots",shots);drawShots()}});
+drawShots();
+
+/* Efeitos do dia */
+const effDefs=[["enjoo","Enjoo",["Nada","Leve","Médio","Forte"]],["apetite","Apetite",["Normal","Pouco menor","Bem menor","Quase nenhum"]],["intestino","Intestino",["Normal","Preso","Solto"]]];
+const eff=S.get("eff",{});
+const effEl=document.getElementById("effects");
+function drawEffects(){
+  const d=eff[todayISO]||{};
+  effEl.innerHTML=effDefs.map(([k,label,opts])=>`<b>${label}</b><div class="opts">${opts.map((o,i)=>`<button class="opt" data-k="${k}" data-i="${i}" aria-pressed="${d[k]===i}">${o}</button>`).join("")}</div>`).join("");
+  document.getElementById("effNote").value=d.note||"";
+  const dates=Object.keys(eff).sort().reverse().slice(0,14);
+  const t=document.getElementById("effTable");
+  if(!dates.length){t.innerHTML='<tbody><tr><td style="color:var(--muted)">Nenhum dia registrado ainda.</td></tr></tbody>';return}
+  t.innerHTML="<thead><tr><th>Data</th>"+effDefs.map(([,l])=>`<th>${l}</th>`).join("")+"<th>Observação</th></tr></thead><tbody>"+dates.map(dt=>`<tr><td>${fmtShort(dt)}</td>`+effDefs.map(([k,,o])=>`<td>${eff[dt][k]!==undefined?o[eff[dt][k]]:"—"}</td>`).join("")+`<td>${esc(eff[dt].note||"")}</td></tr>`).join("")+"</tbody>";
+}
+effEl.addEventListener("click",e=>{const b=e.target.closest(".opt");if(!b)return;const d=eff[todayISO]||(eff[todayISO]={});d[b.dataset.k]=+b.dataset.i;S.set("eff",eff);drawEffects()});
+document.getElementById("effNote").addEventListener("change",e=>{const d=eff[todayISO]||(eff[todayISO]={});d.note=e.target.value;S.set("eff",eff);drawEffects()});
+drawEffects();
+
+/* Cargas por treino */
+const loads=S.get("loads",{});
+const ldEl=document.getElementById("loadTable");
+function curWork(){const c=[...wc.children].find(c=>c.getAttribute("aria-pressed")==="true");return c?c.dataset.k:"A"}
+function drawLoads(){
+  const k=curWork(), rows=works[k][1];
+  ldEl.innerHTML="<thead><tr><th>Exercício</th>"+[1,2,3,4,5,6,7,8].map(w=>`<th>Sem. ${w}</th>`).join("")+"</tr></thead><tbody>"+rows.map((r,ri)=>`<tr><td>${esc(r[0])}</td>`+[1,2,3,4,5,6,7,8].map(w=>{const key=`${k}-${ri}-${w}`;return `<td><input inputmode="decimal" data-k="${key}" aria-label="${esc(r[0])}, semana ${w}, kg" value="${esc(loads[key]||"")}"></td>`}).join("")+"</tr>").join("")+"</tbody>";
+}
+ldEl.addEventListener("input",e=>{const k=e.target.dataset.k;if(k){loads[k]=e.target.value;S.set("loads",loads)}});
+wc.addEventListener("click",()=>drawLoads());
+drawLoads();
+
+/* Treinos feitos */
+const doneW=S.get("doneWork",{});
+const dtEl=document.getElementById("doneTable");
+dtEl.innerHTML="<thead><tr><th>Dia</th>"+[1,2,3,4,5,6,7,8].map(w=>`<th>Sem. ${w}</th>`).join("")+"</tr></thead><tbody>"+order.map(d=>`<tr><td>${days[d]}<br><span style="color:var(--muted);font-size:.8rem">${weekWork[d].split(":")[0]}</span></td>`+[1,2,3,4,5,6,7,8].map(w=>{const k=d+"-"+w;return `<td><input type="checkbox" data-k="${k}" aria-label="${days[d]}, semana ${w}, feito"${doneW[k]?" checked":""}></td>`}).join("")+"</tr>").join("")+"</tbody>";
+dtEl.addEventListener("change",e=>{const k=e.target.dataset.k;if(k){doneW[k]=e.target.checked;S.set("doneWork",doneW)}});
+
+/* Peso e medidas */
+const mFields=["Peso (kg)","Cintura (cm)","Abdômen (cm)","Quadril (cm)","Busto (cm)","Braço (cm)","Coxa (cm)"];
+const mRows=["Início","1","2","3","4","5","6","7","8"];
+let med=S.get("medidas",null);
+if(!med){
+  med={};
+  const old=S.get("log",{});
+  mRows.forEach(r=>{if(old[r+"-0"])med[r+"-0"]=old[r+"-0"];if(old[r+"-1"])med[r+"-1"]=old[r+"-1"]});
+  S.set("medidas",med);
+}
+const mt=document.getElementById("mTable");
+mt.innerHTML="<thead><tr><th>Semana</th>"+mFields.map(f=>`<th>${f}</th>`).join("")+"</tr></thead><tbody>"+mRows.map(r=>`<tr><td>${r}</td>`+mFields.map((f,fi)=>{const k=r+"-"+fi;return `<td><input inputmode="decimal" data-k="${k}" aria-label="Semana ${r}, ${f}" value="${esc(med[k]||"")}"></td>`}).join("")+"</tr>").join("")+"</tbody>";
+let mSel=0;
+const mc=document.getElementById("mChips");
+mFields.forEach((f,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=f.split(" (")[0];b.onclick=()=>{mSel=i;drawChart()};mc.appendChild(b)});
+function drawChart(){
+  [...mc.children].forEach((c,i)=>c.setAttribute("aria-pressed",i===mSel));
+  const pts=mRows.map((r,i)=>[i,num(med[r+"-"+mSel])]).filter(p=>p[1]!==null);
+  const box=document.getElementById("chart");
+  if(!pts.length){box.innerHTML='<p style="color:var(--muted);margin:0">Preencha a tabela abaixo para ver a evolução.</p>';return}
+  const W=600,H=230,L=44,R=16,T=16,B=30;
+  let lo=Math.min(...pts.map(p=>p[1])),hi=Math.max(...pts.map(p=>p[1]));
+  if(hi-lo<2){lo-=1;hi+=1}const padv=(hi-lo)*.12;lo-=padv;hi+=padv;
+  const x=i=>L+(W-L-R)*i/(mRows.length-1), y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+  let g="";
+  for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3;g+=`<line class="axis" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v.toFixed(1).replace(".",",")}</text>`}
+  mRows.forEach((r,i)=>{g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${i===0?"Início":"S"+r}</text>`});
+  const path=pts.map((p,i)=>(i?"L":"M")+x(p[0])+" "+y(p[1])).join(" ");
+  g+=`<path class="ln" d="${path}"/>`+pts.map(p=>`<circle class="pt" cx="${x(p[0])}" cy="${y(p[1])}" r="4.5"><title>${String(p[1]).replace(".",",")}</title></circle>`).join("");
+  const first=pts[0][1],last=pts[pts.length-1][1],diff=last-first;
+  const unit=mSel===0?"kg":"cm";
+  const txt=pts.length>1?`${diff<=0?"":"+"}${diff.toFixed(1).replace(".",",")} ${unit} desde o primeiro registro`:"Um registro até agora";
+  box.innerHTML=`<p style="margin:0 0 6px"><b>${mFields[mSel].split(" (")[0]}:</b> ${txt}</p><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolução de ${mFields[mSel]}">${g}</svg>`;
+}
+mt.addEventListener("input",e=>{const k=e.target.dataset.k;if(k){med[k]=e.target.value;S.set("medidas",med);drawChart()}});
+drawChart();
+
+
+/* Backup */
+document.getElementById("bkSave").onclick=()=>{
+  const data={};
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith("plano8:"))data[k]=localStorage.getItem(k)}}catch(e){}
+  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="backup-meu-plano-"+todayISO+".json";
+  document.body.appendChild(a);a.click();a.remove();
+  document.getElementById("bkMsg").textContent="Backup salvo na pasta de downloads.";
+};
+document.getElementById("bkLoad").onclick=()=>document.getElementById("bkFile").click();
+document.getElementById("bkFile").onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  f.text().then(t=>{
+    const data=JSON.parse(t);
+    if(!confirm("Restaurar este backup? O que está preenchido agora será substituído."))return;
+    Object.keys(data).forEach(k=>{if(k.startsWith("plano8:"))try{localStorage.setItem(k,data[k])}catch(err){}});
+    location.reload();
+  }).catch(()=>{document.getElementById("bkMsg").textContent="Não consegui ler esse arquivo. Confira se é um backup deste app."});
+};
+
+/* App instalável */
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+</script>
+</body>
+</html>
